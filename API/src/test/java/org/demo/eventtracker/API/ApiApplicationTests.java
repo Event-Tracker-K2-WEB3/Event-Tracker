@@ -1,4 +1,4 @@
-package org.demo.eventtracker.back;
+package org.demo.eventtracker.API;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

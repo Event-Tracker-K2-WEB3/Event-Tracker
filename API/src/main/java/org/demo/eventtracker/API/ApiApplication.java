@@ -1,4 +1,4 @@
-package org.demo.eventtracker.back;
+package org.demo.eventtracker.API;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
