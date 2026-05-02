@@ -10,8 +10,10 @@ Event Tracker is a web application designed to manage and organize events online
 
 ## 👥 Team
 This project is developed by a team of **four members**:
-- 2 Backend Developers (Spring Boot)
-- 2 Frontend Developers (Next.js)
+- Gaël : STD24084
+- Marco : STD24141
+- Dylan : STD24214
+- Natolotra : STD24218
 
 ## 🎯 Objective
 The goal of this project is to build an online event management system where users can:
