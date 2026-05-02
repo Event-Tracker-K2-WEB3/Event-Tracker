@@ -7,7 +7,7 @@ CREATE USER event_tracker_db_manager WITH PASSWORD '123456';
 
 -- 4. Attribution des permissions CRUD (SELECT, INSERT, UPDATE, DELETE)
 -- On donne les accès sur le schéma public (là où seront vos tables)
-GRANT CONNECT ON DATABASE federation_agricole_db TO event_tracker_db_manager;
+GRANT CONNECT ON DATABASE event_tracker_db TO event_tracker_db_manager;
 GRANT USAGE ON SCHEMA public TO event_tracker_db_manager;
 
 -- Note : Ces permissions s'appliqueront aux tables une fois créées.
