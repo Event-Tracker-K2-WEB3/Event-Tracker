@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.demo.event-tracker</groupId>
-    <artifactId>back</artifactId>
+    <artifactId>API</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>back</name>
-    <description>back</description>
+    <name>API</name>
+    <description>API</description>
     <url/>
     <licenses>
         <license/>
