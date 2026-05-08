@@ -10,6 +10,8 @@ CREATE USER event_tracker_db_manager WITH PASSWORD '123456';
 GRANT CONNECT ON DATABASE event_tracker_db TO event_tracker_db_manager;
 GRANT USAGE ON SCHEMA public TO event_tracker_db_manager;
 
+-- Donner le droit de créer des tables
+GRANT CREATE ON SCHEMA public TO event_tracker_db_manager;
 -- Note : Ces permissions s'appliqueront aux tables une fois créées.
 -- Pour que l'user puisse utiliser les futurs tables :
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
