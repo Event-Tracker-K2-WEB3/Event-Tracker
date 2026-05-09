@@ -4,22 +4,20 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
-public class Room {
+public class Speaker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private Integer capacity;
+    @Column(columnDefinition = "TEXT")
+    private String bio;
 
-    @OneToMany(mappedBy = "room")
-    private List<Session> sessions;
+    @Column
+    private String link;
 }

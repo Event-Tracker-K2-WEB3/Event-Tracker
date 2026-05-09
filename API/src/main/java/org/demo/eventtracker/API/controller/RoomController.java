@@ -29,7 +29,7 @@ public class RoomController {
     @PostMapping("/rooms")
     public ResponseEntity<?> createRoom(@RequestBody Room room) {
         try {
-            if (room.getRoomName() == null || room.getRoomName().isEmpty()) {
+            if (room.getName() == null || room.getName().isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Rooms' name is required");
             }
