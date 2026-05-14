@@ -1,0 +1,17 @@
+### Créer un event
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "Test Event 3",
+  "description": "Just a test",
+  "startDate": "2026-05-15T09:00:00Z",
+  "endDate": "2026-05-17T18:00:00Z",
+  "location": "Test Location"
+}
+
+### Lister tous les events
+GET http://localhost:8080/events
+
+### Récupérer un event par ID (remplacer {id} par un vrai ID)
+GET http://localhost:8080/events/{id}
