@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ### Lister tous les events
-GET http://localhost:8080/events
+GET http://localhost:8080/events?page=1&size=10
 
 ### Récupérer un event par ID (remplacer {id} par un vrai ID)
 GET http://localhost:8080/events/{id}

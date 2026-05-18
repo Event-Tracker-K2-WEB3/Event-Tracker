@@ -2,7 +2,9 @@ package org.demo.eventtracker.API.controller;
 
 import org.demo.eventtracker.API.entity.Event;
 import org.demo.eventtracker.API.repository.EventRepository;
+import org.demo.eventtracker.API.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +17,16 @@ public class EventController {
 
     @Autowired
     EventRepository eventRepository;
+    @Autowired
+    private EventService eventService;
 
     @GetMapping
-    public ResponseEntity<?> getAllEvents() {
+    public ResponseEntity<?> getAllEvents(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "8") int size
+    ) {
         try {
-            List<Event> events = eventRepository.findAll();
+            Page<Event> events = eventService.getEventsPage(page, size);
             return ResponseEntity.ok(events);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
