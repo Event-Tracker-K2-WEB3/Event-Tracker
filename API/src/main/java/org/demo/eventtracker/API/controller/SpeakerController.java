@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class SpeakerController {
 
     @Autowired
@@ -29,8 +30,13 @@ public class SpeakerController {
     @PostMapping("/speakers")
     public ResponseEntity<?> createSpeaker(@RequestBody Speaker speaker) {
         try {
-            if (speaker.getName() == null || speaker.getName().isEmpty()) {
-                return ResponseEntity.badRequest().body("Speaker name is required");
+            if (
+                    speaker.getName() == null || speaker.getName().isEmpty() ||
+                    speaker.getRole() == null || speaker.getRole().isEmpty() ||
+                    speaker.getCompany() == null || speaker.getCompany().isEmpty() ||
+                    speaker.getSpecialty() == null || speaker.getSpecialty().isEmpty()
+            ) {
+                return ResponseEntity.badRequest().body("Missing required fields ");
             }
             Speaker saved = speakerRepository.save(speaker);
             return ResponseEntity.status(HttpStatus.CREATED).body(saved);
