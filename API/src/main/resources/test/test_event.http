@@ -16,3 +16,27 @@ GET http://localhost:8080/events?page=1&size=10
 ### Récupérer un event par ID (remplacer {id} par un vrai ID)
 GET http://localhost:8080/events/{id}
 
+### 1. Récupérer tous les événements (sans recherche)
+GET http://localhost:8080/events?page=1&size=8
+
+### 2. Recherche par mot-clé "Paris"
+GET http://localhost:8080/events?page=1&size=8&q=Paris
+
+### 3. Recherche par mot-clé "Tech"
+GET http://localhost:8080/events?page=1&size=8&q=Tech
+
+### 4. Recherche par mot-clé "Lyon"
+GET http://localhost:8080/events?page=1&size=8&q=Lyon
+
+### 5. Recherche avec page 2
+GET http://localhost:8080/events?page=2&size=8&q=Paris
+
+### 6. Recherche sans résultat (mot inexistant)
+GET http://localhost:8080/events?page=1&size=8&q=XXXXXXXX
+
+### 7. Recherche insensible à la casse
+GET http://localhost:8080/events?q=paris
+
+### 8. Recherche avec accent
+GET http://localhost:8080/events?page=1&size=8&q=étudiant
+
