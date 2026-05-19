@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/about")
-@CrossOrigin(origins = "http://localhost:3000") // Permet à Next.js de parler au Backend
+@CrossOrigin(origins = "http://localhost:3000")
 public class AboutController {
 
     @Autowired
@@ -27,21 +27,21 @@ public class AboutController {
     @Autowired
     private SessionRepository sessionRepository;
 
-    @GetMapping("/about/stats")
+    @GetMapping("/stats")
     public ResponseEntity<Map<String, Long>> getAboutStats() {
+        try {
+            long countEvents = eventRepository.count();
+            long countSpeakers = speakerRepository.count();
+            long countSessions = sessionRepository.count();
 
+            Map<String, Long> reponse = new HashMap<>();
+            reponse.put("totalEvents", countEvents);
+            reponse.put("totalSpeakers", countSpeakers);
+            reponse.put("totalSessions", countSessions);
 
-        long countEvents = eventRepository.count();
-        long countSpeakers = speakerRepository.count();
-        long countSessions = sessionRepository.count();
-
-
-        Map<String, Long> reponse = new HashMap<>();
-        reponse.put("totalEvents", countEvents);
-        reponse.put("totalSpeakers", countSpeakers);
-        reponse.put("totalSessions", countSessions);
-
-
-        return ResponseEntity.ok(reponse);
+            return ResponseEntity.ok(reponse);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
