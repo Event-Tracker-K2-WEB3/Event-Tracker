@@ -23,10 +23,11 @@ public class EventController {
     @GetMapping
     public ResponseEntity<?> getAllEvents(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "8") int size
+            @RequestParam(defaultValue = "8") int size,
+            @RequestParam(required = false) String q
     ) {
         try {
-            Page<Event> events = eventService.getEventsPage(page, size);
+            Page<Event> events = eventService.searchEvents(q, page, size);
             return ResponseEntity.ok(events);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
