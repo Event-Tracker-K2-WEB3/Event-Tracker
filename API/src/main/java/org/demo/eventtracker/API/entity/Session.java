@@ -37,7 +37,7 @@ public class Session {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "speaker_id")
-    private Speaker speaker;*/
+    private Speaker speaker;
 }
