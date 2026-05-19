@@ -20,4 +20,17 @@ public class EventService {
         Pageable pageable = PageRequest.of(page - 1, size);
         return eventRepository.findAll(pageable);
     }
+
+    public Page<Event> searchEvents(String search, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        if (search == null || search.trim().isEmpty()) {
+            return eventRepository.findAll(pageable);
+        }
+
+        return eventRepository.searchEvents(
+                search.trim(), pageable
+        );
+    }
+
 }
