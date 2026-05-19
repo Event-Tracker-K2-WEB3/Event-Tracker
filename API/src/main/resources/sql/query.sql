@@ -1,0 +1,1 @@
+SELECT id, title, location FROM event WHERE location LIKE '%Paris%';
