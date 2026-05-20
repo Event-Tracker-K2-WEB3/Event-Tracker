@@ -5,3 +5,4 @@ Accept: application/json
 ### Récupérer un événement par id
 GET http://localhost:8080/events/tech-summit-paris-2026
 Accept: application/json
+
