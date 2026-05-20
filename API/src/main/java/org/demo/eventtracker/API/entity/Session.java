@@ -40,4 +40,7 @@ public class Session {
     @ManyToOne
     @JoinColumn(name = "speaker_id")
     private Speaker speaker;
+
+    @Column
+    private Integer capacity;
 }
