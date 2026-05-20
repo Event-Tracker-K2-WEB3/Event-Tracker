@@ -24,10 +24,11 @@ public class EventController {
     public ResponseEntity<?> getAllEvents(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "8") int size,
-            @RequestParam(required = false) String q
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) String date
     ) {
         try {
-            Page<Event> events = eventService.searchEvents(q, page, size);
+            Page<Event> events = eventService.searchAndFilter(q, date, page, size);
             return ResponseEntity.ok(events);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
