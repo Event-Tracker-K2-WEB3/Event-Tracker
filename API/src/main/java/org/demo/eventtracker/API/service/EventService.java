@@ -21,16 +21,15 @@ public class EventService {
         return eventRepository.findAll(pageable);
     }
 
-    public Page<Event> searchEvents(String search, int page, int size) {
+    public Page<Event> searchAndFilter(String search, String date, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        if (search == null || search.trim().isEmpty()) {
+        if ((search == null || search.trim().isEmpty()) &&
+                (date == null || date.trim().isEmpty() || date.equals("all"))) {
             return eventRepository.findAll(pageable);
         }
 
-        return eventRepository.searchEvents(
-                search.trim(), pageable
-        );
+        return eventRepository.searchAndFilterByDate(search, date, pageable);
     }
 
 }
