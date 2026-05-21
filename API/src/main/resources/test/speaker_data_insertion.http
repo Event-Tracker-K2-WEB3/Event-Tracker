@@ -1,0 +1,198 @@
+### Get all speakers
+GET http://localhost:8080/speakers
+
+
+### Get speaker by id
+GET http://localhost:8080/speakers/1
+
+###
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+{
+  "name": "Alexandre Moreau",
+  "role": "Expert en Intelligence Artificielle",
+  "specialty": "IA",
+  "company": "TechVision",
+  "bio": "Alexandre accompagne les entreprises dans l'intégration de l'IA pour optimiser leurs processus.",
+  "photo": "AM_photo",
+  "initials": "AM",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://exemple.com",
+  "day": "Jour 1",
+  "sessionType": "Conférence",
+  "sessions": 3
+}
+
+###
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+{
+  "name": "Sophie Laurent",
+  "role": "Architecte Cloud",
+  "specialty": "Cloud",
+  "company": "CloudPeak",
+  "bio": "Spécialiste des infrastructures cloud hybrides, Sophie aide les organisations à migrer et scaler.",
+  "initials": "SL",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://exemple.com",
+  "day": "Jour 2",
+  "sessionType": "Atelier",
+  "sessions": 2
+}
+
+###
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+
+{
+  "name": "Karim Benali",
+  "role": "Expert Cybersécurité",
+  "specialty": "Cybersécurité",
+  "company": "SecureNet",
+  "bio": "Karim protège les systèmes critiques et forme les équipes aux bonnes pratiques de sécurité.",
+  "initials": "KB",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://exemple.com",
+  "day": "Jour 1",
+  "sessionType": "Panel",
+  "sessions": 4
+}
+
+###
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+{
+  "name": "Léa Fontaine",
+  "role": "Développeuse Full Stack",
+  "specialty": "Web",
+  "company": "WebCraft",
+  "bio": "Passionnée par React et Node.js, Léa partage son expérience sur les architectures modernes.",
+  "initials": "LF",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://exemple.com",
+  "day": "Jour 3",
+  "sessionType": "Conférence",
+  "sessions": 2
+}
+
+###
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+{
+  "name": "Thomas Girard",
+  "role": "Ingénieur Mobile",
+  "specialty": "Mobile",
+  "company": "AppForge",
+  "bio": "Thomas conçoit des applications mobiles performantes sur iOS et Android avec React Native.",
+  "initials": "TG",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://exemple.com",
+  "day": "Jour 2",
+  "sessionType": "Atelier",
+  "sessions": 1
+}
+
+###
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+{
+  "name": "Nadia Osei",
+  "role": "Data Scientist",
+  "specialty": "IA",
+  "company": "DataMind",
+  "bio": "Nadia exploite le machine learning pour transformer les données complexes en décisions stratégiques.",
+  "initials": "NO",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://datamind.ai",
+  "day": "Jour 3",
+  "sessionType": "Q&A",
+  "sessions": 2
+}
+
+###
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+{
+  "name": "Julien Martel",
+  "role": "Ingénieur DevOps",
+  "specialty": "DevOps",
+  "company": "InfraScale",
+  "bio": "Julien automatise les pipelines CI/CD et optimise les infrastructures cloud modernes.",
+  "initials": "JM",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://infrascale.dev",
+  "day": "Jour 1",
+  "sessionType": "Panel",
+  "sessions": 5
+}
+
+###
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+{
+  "name": "Camille Durand",
+  "role": "UX/UI Designer",
+  "specialty": "Design",
+  "company": "PixelFlow",
+  "bio": "Camille crée des expériences utilisateurs modernes centrées sur l’accessibilité et la performance.",
+  "initials": "CD",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://pixelflow.design",
+  "day": "Jour 2",
+  "sessionType": "Conférence",
+  "sessions": 3
+}
+
+###
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+{
+  "name": "Mehdi Rahmani",
+  "role": "Ingénieur Backend",
+  "specialty": "Backend",
+  "company": "CoreStack",
+  "bio": "Mehdi développe des APIs robustes et sécurisées pour des plateformes à forte charge.",
+  "initials": "MR",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://corestack.io",
+  "day": "Jour 3",
+  "sessionType": "Atelier",
+  "sessions": 2
+}
+
+###
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+{
+  "name": "Sarah Kim",
+  "role": "Experte Blockchain",
+  "specialty": "Web3",
+  "company": "ChainLabs",
+  "bio": "Sarah accompagne les startups dans le développement d’applications décentralisées sécurisées.",
+  "initials": "SK",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://chainlabs.xyz",
+  "day": "Jour 1",
+  "sessionType": "Conférence",
+  "sessions": 4
+}

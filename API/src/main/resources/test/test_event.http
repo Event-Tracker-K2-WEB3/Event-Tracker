@@ -1,0 +1,158 @@
+### Événements passés
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "Tech Summit 2024",
+  "description": "Le grand rendez-vous tech",
+  "startDate": "2024-03-15T09:00:00Z",
+  "endDate": "2024-03-17T18:00:00Z",
+  "location": "Paris, France"
+}
+
+###
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "UX Conference 2024",
+  "description": "Design UX/UI",
+  "startDate": "2024-05-10T10:00:00Z",
+  "endDate": "2024-05-12T17:00:00Z",
+  "location": "Lyon, France"
+}
+
+### Événements aujourd'hui (2026-05-20)
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "AI Workshop Today",
+  "description": "Atelier IA pratique",
+  "startDate": "2026-05-20T09:00:00Z",
+  "endDate": "2026-05-20T18:00:00Z",
+  "location": "Paris, France"
+}
+
+###
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "DevOps Morning",
+  "description": "Introduction au DevOps",
+  "startDate": "2026-05-20T14:00:00Z",
+  "endDate": "2026-05-20T17:00:00Z",
+  "location": "Bordeaux, France"
+}
+
+### Événements cette semaine
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "Cloud Summit",
+  "description": "Le futur du cloud computing",
+  "startDate": "2026-05-22T09:00:00Z",
+  "endDate": "2026-05-23T18:00:00Z",
+  "location": "Paris, France"
+}
+
+###
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "Data Science Day",
+  "description": "Big Data et Analytics",
+  "startDate": "2026-05-24T10:00:00Z",
+  "endDate": "2026-05-24T17:00:00Z",
+  "location": "Lyon, France"
+}
+
+### Événements ce mois-ci
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "Security Forum",
+  "description": "Cybersécurité et conformité",
+  "startDate": "2026-06-05T09:00:00Z",
+  "endDate": "2026-06-06T18:00:00Z",
+  "location": "Paris, France"
+}
+
+###
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "Mobile Dev Summit",
+  "description": "Développement mobile",
+  "startDate": "2026-06-10T10:00:00Z",
+  "endDate": "2026-06-12T17:00:00Z",
+  "location": "Bordeaux, France"
+}
+
+###
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "Startup Weekend",
+  "description": "Weekend de création startup",
+  "startDate": "2026-06-15T09:00:00Z",
+  "endDate": "2026-06-16T20:00:00Z",
+  "location": "Lille, France"
+}
+
+### Événements futurs
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "Web3 Conference",
+  "description": "La révolution Web3",
+  "startDate": "2026-07-20T09:00:00Z",
+  "endDate": "2026-07-22T18:00:00Z",
+  "location": "Paris, France"
+}
+
+###
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "title": "Green IT Summit",
+  "description": "Tech durable et responsable",
+  "startDate": "2026-08-10T10:00:00Z",
+  "endDate": "2026-08-12T17:00:00Z",
+  "location": "Lyon, France"
+}
+
+### Test 1 : Tous les événements (sans filtre)
+GET http://localhost:8080/events?page=1&size=20
+
+### Test 2 : Filtre date = today
+GET http://localhost:8080/events?page=1&size=20&date=today
+
+### Test 3 : Filtre date = week
+GET http://localhost:8080/events?page=1&size=20&date=week
+
+### Test 4 : Filtre date = month
+GET http://localhost:8080/events?page=1&size=20&date=month
+
+### Test 5 : Recherche "Paris"
+GET http://localhost:8080/events?page=1&size=20&q=Paris
+
+### Test 6 : Recherche "Paris" + date = week
+GET http://localhost:8080/events?page=1&size=20&q=Paris&date=week
+
+### Test 7 : Recherche "Paris" + date = month
+GET http://localhost:8080/events?page=1&size=20&q=Paris&date=month
+
+### Test 8 : Recherche "Lyon"
+GET http://localhost:8080/events?page=1&size=20&q=Lyon
+
+### Test 9 : Page 2 des résultats
+GET http://localhost:8080/events?page=2&size=5
