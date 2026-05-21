@@ -47,3 +47,13 @@ WHERE id = 1;
 UPDATE session
 SET image = '/images/sessions/ai-introduction.jpg'
 WHERE id = 2;
+
+--------------------------------------------------------------------------------
+
+
+ALTER TABLE session
+    ADD COLUMN IF NOT EXISTS image varchar(255);
+
+UPDATE session
+SET image = '/images/sessions/ai-introduction.jpg'
+WHERE id = 2;
