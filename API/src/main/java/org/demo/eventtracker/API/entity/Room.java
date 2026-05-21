@@ -1,5 +1,6 @@
 package org.demo.eventtracker.API.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +18,7 @@ public class Room {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
-    private Integer capacity;
-
     @OneToMany(mappedBy = "room")
+    @JsonIgnoreProperties("room")
     private List<Session> sessions;
 }
