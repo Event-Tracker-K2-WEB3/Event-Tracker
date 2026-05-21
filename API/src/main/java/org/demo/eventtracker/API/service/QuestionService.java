@@ -97,12 +97,12 @@ public class QuestionService {
                         "Question not found"
                 ));
 
-        if (!isLive(question.getSession())) {
+        /*if (!isLive(question.getSession())) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
                     "Questions can only be upvoted during a live session"
             );
-        }
+        }*/
 
         if (questionVoteRepository.existsByQuestionIdAndVisitorId(questionId, visitorId)) {
             return QuestionResponse.fromEntity(question, true);
