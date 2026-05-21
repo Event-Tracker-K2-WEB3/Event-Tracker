@@ -11,6 +11,8 @@ public interface SpeakerSessionProjection {
 
     String getType();
 
+    String getImage();
+
     Instant getStartTime();
 
     Instant getEndTime();
