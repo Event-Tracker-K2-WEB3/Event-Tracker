@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,6 +31,8 @@ public class Session {
     @Column(nullable = false)
     private String type;
 
+    private Integer capacity;
+
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
@@ -37,10 +41,11 @@ public class Session {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @ManyToOne
-    @JoinColumn(name = "speaker_id")
-    private Speaker speaker;
-
-    @Column
-    private Integer capacity;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "session_speaker",
+            joinColumns = @JoinColumn(name = "session_id"),
+            inverseJoinColumns = @JoinColumn(name = "speaker_id")
+    )
+    private List<Speaker> speakers = new ArrayList<>();
 }

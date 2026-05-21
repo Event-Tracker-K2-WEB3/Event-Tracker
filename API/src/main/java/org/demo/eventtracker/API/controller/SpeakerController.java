@@ -1,59 +1,26 @@
 package org.demo.eventtracker.API.controller;
 
-import org.demo.eventtracker.API.entity.Speaker;
-import org.demo.eventtracker.API.repository.SpeakerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import org.demo.eventtracker.API.dto.SpeakerDetailsResponse;
+import org.demo.eventtracker.API.dto.SpeakerSummaryResponse;
+import org.demo.eventtracker.API.service.SpeakerService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
+@RequestMapping("/speakers")
 public class SpeakerController {
+    private final SpeakerService speakerService;
 
-    @Autowired
-    private SpeakerRepository speakerRepository;
-
-    @GetMapping("/speakers")
-    public ResponseEntity<?> getAllSpeakers() {
-        try {
-            List<Speaker> speakers = speakerRepository.findAll();
-            return ResponseEntity.ok(speakers);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error retrieving speakers: " + e.getMessage());
-        }
+    @GetMapping
+    public List<SpeakerSummaryResponse> getAllSpeakers() {
+        return speakerService.getAllSpeakers();
     }
 
-    @PostMapping("/speakers")
-    public ResponseEntity<?> createSpeaker(@RequestBody Speaker speaker) {
-        try {
-            if (
-                    speaker.getName() == null || speaker.getName().isEmpty() ||
-                    speaker.getRole() == null || speaker.getRole().isEmpty() ||
-                    speaker.getCompany() == null || speaker.getCompany().isEmpty() ||
-                    speaker.getSpecialty() == null || speaker.getSpecialty().isEmpty()
-            ) {
-                return ResponseEntity.badRequest().body("Missing required fields ");
-            }
-            Speaker saved = speakerRepository.save(speaker);
-            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error creating speaker: " + e.getMessage());
-        }
-    }
-
-    @GetMapping("/speakers/{id}")
-    public ResponseEntity<?> getSpeakerById(@PathVariable Integer id) {
-        try {
-            return speakerRepository.findById(id)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    @GetMapping("/{id}")
+    public SpeakerDetailsResponse getSpeakerById(@PathVariable Integer id) {
+        return speakerService.getSpeakerById(id);
     }
 }
