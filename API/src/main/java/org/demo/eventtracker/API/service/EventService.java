@@ -49,7 +49,8 @@ public class EventService {
                     speaker.getId(),
                     speaker.getName(),
                     speaker.getRole(),
-                    speaker.getPhoto()
+                    speaker.getPhoto(),
+                    speaker.getInitials()
             ));
         }
 
