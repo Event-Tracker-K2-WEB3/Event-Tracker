@@ -16,4 +16,14 @@ public interface SpeakerRepository extends JpaRepository<Speaker, Integer> {
         WHERE speaker_id = :speakerId
         """, nativeQuery = true)
     Integer countSessionsBySpeakerId(@Param("speakerId") Integer speakerId);
+
+    @Query(value = """
+    SELECT DISTINCT s.* 
+    FROM speaker s
+    JOIN session_speaker ss ON ss.speaker_id = s.id
+    JOIN session sess ON sess.id = ss.session_id
+    WHERE sess.event_id = :eventId
+    """, nativeQuery = true)
+    List<Speaker> findSpeakersByEventId(@Param("eventId") String eventId);
+
 }
