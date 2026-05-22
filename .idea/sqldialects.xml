@@ -3,5 +3,6 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/API/src/main/resources/sql/6_update_speakers.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/API/src/main/resources/sql/7_session_update.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/API/src/main/resources/sql/8_question_schema.sql" dialect="PostgreSQL" />
   </component>
 </project>

@@ -62,3 +62,12 @@ UPDATE session
 SET start_time = now() - interval '10 minutes',
     end_time = now() + interval '50 minutes'
 WHERE id = 2;
+
+--------------------------------------------------------------------------------------------
+
+UPDATE session
+SET start_time = now() - interval '10 minutes',
+    end_time = now() + interval '50 minutes',
+    image = '/images/sessions/ai-introduction.jpg'
+WHERE id = 2;
+
