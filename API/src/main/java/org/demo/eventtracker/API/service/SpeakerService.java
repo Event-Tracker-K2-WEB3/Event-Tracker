@@ -11,6 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import org.demo.eventtracker.API.dto.SpeakerCreateRequest;
+import org.demo.eventtracker.API.entity.Speaker;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -40,5 +44,59 @@ public class SpeakerService {
                 sessionRepository.findSpeakerSessionsBySpeakerId(id);
 
         return SpeakerDetailsResponse.fromEntity(speaker, sessions);
+    }
+
+    public SpeakerSummaryResponse createSpeaker(SpeakerCreateRequest request) {
+        if (request.name() == null || request.name().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Speaker name is required");
+        }
+
+        if (request.role() == null || request.role().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Speaker role is required");
+        }
+
+        if (request.specialty() == null || request.specialty().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Speaker specialty is required");
+        }
+
+        if (request.company() == null || request.company().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Speaker company is required");
+        }
+
+        Speaker speaker = new Speaker();
+        speaker.setName(request.name().trim());
+        speaker.setRole(request.role().trim());
+        speaker.setSpecialty(request.specialty().trim());
+        speaker.setCompany(request.company().trim());
+        speaker.setBio(request.bio());
+        speaker.setPhoto(request.photo());
+        speaker.setInitials(
+                request.initials() == null || request.initials().trim().isEmpty()
+                        ? generateInitials(request.name())
+                        : request.initials().trim()
+        );
+        speaker.setLinkedin(request.linkedin());
+        speaker.setTwitter(request.twitter());
+        speaker.setWebsite(request.website());
+        speaker.setDay(request.day());
+        speaker.setSessionType(request.sessionType());
+
+        Speaker savedSpeaker = speakerRepository.save(speaker);
+
+        return SpeakerSummaryResponse.fromEntity(savedSpeaker);
+    }
+
+    private String generateInitials(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return "?";
+        }
+
+        String[] parts = name.trim().split("\\s+");
+
+        if (parts.length == 1) {
+            return parts[0].substring(0, 1).toUpperCase();
+        }
+
+        return (parts[0].substring(0, 1) + parts[1].substring(0, 1)).toUpperCase();
     }
 }
