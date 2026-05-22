@@ -1,0 +1,5 @@
+1. Exécutena ito "00_seed_reset.sql" mamafa anle table rehetra
+2. Relancer Spring Boot (Mba ahafahanle Hibernate mcréer anle table rehetra)
+3. Vérifier que les tables sont recréées (Any @BDD no verifiena)
+4. Exécuter 2_seed_post.http de haut en bas (Données d'insertion tode mampiasa POST)
+5. Exécuter 3_seed_get.http pour vérifier (Mtest raha insérer tsara le données via GET)

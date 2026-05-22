@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:8080
+
+### Get all events
+GET {{baseUrl}}/events?page=1&size=8
+
+
+### Get all rooms
+GET {{baseUrl}}/rooms
+
+
+### Get all speakers
+GET {{baseUrl}}/speakers
+
+
+### Get speaker Alexandre
+GET {{baseUrl}}/speakers/{{speakerAlexandreId}}
+
+
+### Get live session details
+GET {{baseUrl}}/sessions/{{sessionLiveId}}
+
+
+### Get questions sorted by upvotes
+GET {{baseUrl}}/sessions/{{sessionLiveId}}/questions?sort=upvotes&visitorId=visitor-test-001
+
+
+### Get questions sorted by recent
+GET {{baseUrl}}/sessions/{{sessionLiveId}}/questions?sort=recent&visitorId=visitor-test-001
