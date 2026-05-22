@@ -1,6 +1,8 @@
 package org.demo.eventtracker.API.controller;
 
+import org.demo.eventtracker.API.dto.SpeakerEventResponse;
 import org.demo.eventtracker.API.entity.Event;
+import org.demo.eventtracker.API.entity.Speaker;
 import org.demo.eventtracker.API.repository.EventRepository;
 import org.demo.eventtracker.API.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/events")
@@ -80,5 +84,15 @@ public class EventController {
         }
     }
 
+    @GetMapping("/{eventId}/speakers")
+    public ResponseEntity<?> getSpeakersByEvent(@PathVariable String eventId) {
+        try {
+            List<SpeakerEventResponse> speakers = eventService.getSpeakersByEventId(eventId);
+            return ResponseEntity.ok(speakers);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error retrieving speakers: " + e.getMessage());
+        }
+    }
 
 }
