@@ -1,6 +1,7 @@
 package org.demo.eventtracker.API.service;
 
 import lombok.RequiredArgsConstructor;
+import org.demo.eventtracker.API.dto.SpeakerCreateRequest;
 import org.demo.eventtracker.API.dto.SpeakerDetailsResponse;
 import org.demo.eventtracker.API.dto.SpeakerSessionProjection;
 import org.demo.eventtracker.API.dto.SpeakerSummaryResponse;
@@ -10,10 +11,6 @@ import org.demo.eventtracker.API.repository.SpeakerRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-import org.demo.eventtracker.API.dto.SpeakerCreateRequest;
-import org.demo.eventtracker.API.entity.Speaker;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -26,9 +23,12 @@ public class SpeakerService {
 
     @Transactional(readOnly = true)
     public List<SpeakerSummaryResponse> getAllSpeakers() {
-        return speakerRepository.findAllByOrderByNameAsc()
+        return speakerRepository.findAll()
                 .stream()
-                .map(SpeakerSummaryResponse::fromEntity)
+                .map(speaker -> {
+                    Integer sessionCount = speakerRepository.countSessionsBySpeakerId(speaker.getId());
+                    return SpeakerSummaryResponse.fromEntity(speaker, sessionCount);
+                })
                 .toList();
     }
 
@@ -46,6 +46,7 @@ public class SpeakerService {
         return SpeakerDetailsResponse.fromEntity(speaker, sessions);
     }
 
+    @Transactional
     public SpeakerSummaryResponse createSpeaker(SpeakerCreateRequest request) {
         if (request.name() == null || request.name().trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Speaker name is required");
@@ -83,7 +84,7 @@ public class SpeakerService {
 
         Speaker savedSpeaker = speakerRepository.save(speaker);
 
-        return SpeakerSummaryResponse.fromEntity(savedSpeaker);
+        return SpeakerSummaryResponse.fromEntity(savedSpeaker, 0);
     }
 
     private String generateInitials(String name) {
