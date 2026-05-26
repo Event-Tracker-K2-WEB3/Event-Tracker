@@ -2,6 +2,7 @@
 @baseUrl = http://localhost:8080
 @eventAiId = c37c9d8c-5336-45cf-92f3-b85b67799ccf
 @eventTechId = 28682344-cc2e-41e2-af41-d84a449ea967
+@invalidEventId = 12345678-1234-1234-1234-123456789012
 
 ### 1. Récupérer les intervenants de l'événement AI & Data Workshop
 GET {{baseUrl}}/events/{{eventAiId}}/speakers
@@ -13,4 +14,16 @@ Accept: application/json
 
 ### 3. Récupérer les sessions de l'événement AI & Data Workshop (alternative)
 GET {{baseUrl}}/events/{{eventAiId}}/sessions
+Accept: application/json
+
+### 4. Récupérer les sessions de l'événement AI & Data Workshop
+GET {{baseUrl}}/events/{{eventAiId}}/sessions
+Accept: application/json
+
+### 5. Récupérer les sessions de l'événement Tech Summit Paris 2026
+GET {{baseUrl}}/events/{{eventTechId}}/sessions
+Accept: application/json
+
+### 6. Tester avec un ID d'événement invalide (doit retourner 404)
+GET {{baseUrl}}/events/{{invalidEventId}}/sessions
 Accept: application/json
