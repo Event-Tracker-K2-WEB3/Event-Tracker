@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -92,6 +93,19 @@ public class EventController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error retrieving speakers: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{eventId}/sessions")
+    public ResponseEntity<?> getSessionsByEventId(@PathVariable String eventId) {
+        try {
+            return ResponseEntity.ok(eventService.getSessionsByEventId(eventId));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(e.getReason());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error retrieving event sessions: " + e.getMessage());
         }
     }
 

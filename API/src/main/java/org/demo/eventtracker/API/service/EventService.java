@@ -1,15 +1,20 @@
 package org.demo.eventtracker.API.service;
 
+import org.demo.eventtracker.API.dto.EventSessionResponse;
 import org.demo.eventtracker.API.dto.SpeakerEventResponse;
 import org.demo.eventtracker.API.entity.Event;
+import org.demo.eventtracker.API.entity.Session;
 import org.demo.eventtracker.API.entity.Speaker;
 import org.demo.eventtracker.API.repository.EventRepository;
+import org.demo.eventtracker.API.repository.SessionRepository;
 import org.demo.eventtracker.API.repository.SpeakerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +28,9 @@ public class EventService {
 
     @Autowired
     private SpeakerRepository speakerRepository;
+
+    @Autowired
+    private SessionRepository sessionRepository;
 
     public Page<Event> searchAndFilter(String search, String date, String location, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
@@ -55,6 +63,28 @@ public class EventService {
         }
 
         return response;
+    }
+
+    public List<EventSessionResponse> getSessionsByEventId(String eventId) {
+        if (eventId == null || eventId.trim().isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Event id is required"
+            );
+        }
+
+        if (!eventRepository.existsById(eventId)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Event not found"
+            );
+        }
+
+        List<Session> sessions = sessionRepository.findByEventIdWithRoom(eventId);
+
+        return sessions.stream()
+                .map(EventSessionResponse::fromEntity)
+                .toList();
     }
 
 }

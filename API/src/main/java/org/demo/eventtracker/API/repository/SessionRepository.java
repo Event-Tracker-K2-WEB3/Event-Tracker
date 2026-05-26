@@ -46,4 +46,14 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
             ORDER BY s.start_time ASC
             """, nativeQuery = true)
     List<SpeakerSessionProjection> findSpeakerSessionsBySpeakerId(@Param("speakerId") Integer speakerId);
+
+    @Query("""
+        SELECT session
+        FROM Session session
+        LEFT JOIN FETCH session.room
+        WHERE session.event.id = :eventId
+        ORDER BY session.startTime ASC
+        """)
+    List<Session> findByEventIdWithRoom(@Param("eventId") String eventId);
+
 }
