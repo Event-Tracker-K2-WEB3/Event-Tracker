@@ -1,41 +1,41 @@
 @baseUrl = http://localhost:8080
 
-### 1. Create room - Salle A
+### 1. Create room - Main Hall
 POST {{baseUrl}}/rooms
 Content-Type: application/json
 
 {
-  "name": "Salle A"
+  "name": "Main Hall"
 }
 
 > {%
-    client.global.set("roomSalleAId", response.body.id);
+    client.global.set("roomMainHallId", response.body.id);
 %}
 
 
-### 2. Create room - Amphi A
+### 2. Create room - Amphitheater A
 POST {{baseUrl}}/rooms
 Content-Type: application/json
 
 {
-  "name": "Amphi A"
+  "name": "Amphitheater A"
 }
 
 > {%
-    client.global.set("roomAmphiAId", response.body.id);
+    client.global.set("roomAmphitheaterAId", response.body.id);
 %}
 
 
-### 3. Create room - Salle B
+### 3. Create room - Room B
 POST {{baseUrl}}/rooms
 Content-Type: application/json
 
 {
-  "name": "Salle B"
+  "name": "Room B"
 }
 
 > {%
-    client.global.set("roomSalleBId", response.body.id);
+    client.global.set("roomBId", response.body.id);
 %}
 
 
@@ -58,7 +58,7 @@ Content-Type: application/json
 
 {
   "title": "AI & Data Workshop",
-  "description": "Workshop autour de l’intelligence artificielle, du Machine Learning et de la data.",
+  "description": "A practical workshop about artificial intelligence, machine learning and data-driven innovation.",
   "startDate": "{{$isoTimestamp}}",
   "endDate": "2030-12-31T23:59:59Z",
   "location": "Antananarivo"
@@ -75,7 +75,7 @@ Content-Type: application/json
 
 {
   "title": "Tech Summit Paris 2026",
-  "description": "Conférence technologique sur l’IA, le cloud, le web et les métiers numériques.",
+  "description": "A technology conference focused on AI, cloud, web development and digital careers.",
   "startDate": "2030-01-10T08:00:00Z",
   "endDate": "2030-01-10T18:00:00Z",
   "location": "Paris"
@@ -92,17 +92,17 @@ Content-Type: application/json
 
 {
   "name": "Alexandre Moreau",
-  "role": "Expert en Intelligence Artificielle",
-  "specialty": "IA",
+  "role": "Artificial Intelligence Expert",
+  "specialty": "AI",
   "company": "TechVision",
-  "bio": "Alexandre accompagne les entreprises dans l’intégration de l’IA pour optimiser leurs processus.",
+  "bio": "Alexandre helps companies integrate AI to optimize their business processes.",
   "photo": "/images/speakers/alexandre-moreau.jpg",
   "initials": "AM",
   "linkedin": "https://linkedin.com",
   "twitter": "https://twitter.com",
-  "website": "https://exemple.com",
-  "day": "Jour 1",
-  "sessionType": "Conférence"
+  "website": "https://example.com",
+  "day": "Day 1",
+  "sessionType": "Conference"
 }
 
 > {%
@@ -116,17 +116,17 @@ Content-Type: application/json
 
 {
   "name": "Sophie Laurent",
-  "role": "Architecte Cloud",
+  "role": "Cloud Architect",
   "specialty": "Cloud",
   "company": "CloudPeak",
-  "bio": "Spécialiste des infrastructures cloud hybrides, Sophie aide les organisations à migrer et scaler.",
+  "bio": "Sophie specializes in hybrid cloud infrastructure and helps organizations migrate, scale and secure their platforms.",
   "photo": null,
   "initials": "SL",
   "linkedin": "https://linkedin.com",
   "twitter": "https://twitter.com",
-  "website": "https://exemple.com",
-  "day": "Jour 1",
-  "sessionType": "Atelier"
+  "website": "https://example.com",
+  "day": "Day 1",
+  "sessionType": "Workshop"
 }
 
 > {%
@@ -140,17 +140,17 @@ Content-Type: application/json
 
 {
   "name": "Karim Benali",
-  "role": "Expert Cybersécurité",
-  "specialty": "Cybersécurité",
+  "role": "Cybersecurity Expert",
+  "specialty": "Cybersecurity",
   "company": "SecureNet",
-  "bio": "Karim protège les systèmes critiques et forme les équipes aux bonnes pratiques de sécurité.",
+  "bio": "Karim protects critical systems and trains teams on modern security best practices.",
   "photo": null,
   "initials": "KB",
   "linkedin": "https://linkedin.com",
   "twitter": "https://twitter.com",
-  "website": "https://exemple.com",
-  "day": "Jour 2",
-  "sessionType": "Conférence"
+  "website": "https://example.com",
+  "day": "Day 2",
+  "sessionType": "Conference"
 }
 
 > {%
@@ -164,16 +164,16 @@ Content-Type: application/json
 
 {
   "name": "Nadia Rossi",
-  "role": "Consultante Data",
+  "role": "Data Consultant",
   "specialty": "Data",
   "company": "DataNova",
-  "bio": "Nadia aide les organisations à exploiter leurs données pour prendre de meilleures décisions.",
+  "bio": "Nadia helps organizations use their data to make better strategic decisions.",
   "photo": null,
   "initials": "NR",
   "linkedin": "https://linkedin.com",
   "twitter": "https://twitter.com",
-  "website": "https://exemple.com",
-  "day": "Jour 1",
+  "website": "https://example.com",
+  "day": "Day 1",
   "sessionType": "Panel"
 }
 
@@ -187,14 +187,14 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-  "title": "Introduction à l'Intelligence Artificielle",
-  "description": "Découverte des concepts fondamentaux de l'IA, du Machine Learning et des réseaux de neurones.",
+  "title": "Introduction to Artificial Intelligence",
+  "description": "An introduction to the core concepts of AI, machine learning and neural networks.",
   "startTime": "{{$isoTimestamp}}",
   "endTime": "2030-12-31T23:59:59Z",
-  "type": "Conférence",
+  "type": "Conference",
   "capacity": 100,
   "eventId": "{{eventAiId}}",
-  "roomId": {{roomAmphiAId}},
+  "roomId": {{roomAmphitheaterAId}},
   "image": "/images/sessions/ai-introduction.jpg"
 }
 
@@ -208,11 +208,11 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-  "title": "Cloud hybride et scalabilité",
-  "description": "Bonnes pratiques pour concevoir des infrastructures cloud évolutives et résilientes.",
+  "title": "Hybrid Cloud and Scalability",
+  "description": "Best practices for designing scalable, resilient and secure cloud infrastructure.",
   "startTime": "2030-01-10T10:00:00Z",
   "endTime": "2030-01-10T11:00:00Z",
-  "type": "Atelier",
+  "type": "Workshop",
   "capacity": 80,
   "eventId": "{{eventAiId}}",
   "roomId": {{roomWorkshopLabId}},
@@ -229,14 +229,14 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-  "title": "Cybersécurité des applications modernes",
-  "description": "Approche pratique pour sécuriser les applications web, les APIs et les systèmes critiques.",
+  "title": "Cybersecurity for Modern Applications",
+  "description": "A practical approach to securing web applications, APIs and critical systems.",
   "startTime": "2030-01-10T11:15:00Z",
   "endTime": "2030-01-10T12:15:00Z",
-  "type": "Conférence",
+  "type": "Conference",
   "capacity": 90,
   "eventId": "{{eventTechId}}",
-  "roomId": {{roomSalleBId}},
+  "roomId": {{roomBId}},
   "image": "/images/sessions/cybersecurity.jpg"
 }
 
@@ -266,7 +266,7 @@ POST {{baseUrl}}/sessions/{{sessionLiveId}}/questions
 Content-Type: application/json
 
 {
-  "content": "Quels sont les principaux cas d’usage de l’IA générative aujourd’hui ?",
+  "content": "What are the main use cases of generative AI today?",
   "authorName": "Lucas"
 }
 
@@ -280,7 +280,7 @@ POST {{baseUrl}}/sessions/{{sessionLiveId}}/questions
 Content-Type: application/json
 
 {
-  "content": "Comment garantir la fiabilité des résultats générés par l’IA ?",
+  "content": "How can we ensure the reliability of AI-generated results?",
   "authorName": "Marie"
 }
 
@@ -294,8 +294,8 @@ POST {{baseUrl}}/sessions/{{sessionLiveId}}/questions
 Content-Type: application/json
 
 {
-  "content": "L’IA générative va-t-elle remplacer certains métiers selon vous ?",
-  "authorName": "Anonyme"
+  "content": "Do you think generative AI will replace some jobs in the near future?",
+  "authorName": "Anonymous"
 }
 
 > {%
