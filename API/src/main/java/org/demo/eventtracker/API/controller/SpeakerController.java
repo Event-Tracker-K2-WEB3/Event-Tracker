@@ -29,4 +29,17 @@ public class SpeakerController {
     public SpeakerSummaryResponse createSpeaker(@RequestBody SpeakerCreateRequest request) {
         return speakerService.createSpeaker(request);
     }
+
+    @PutMapping("/{id}")
+    public SpeakerSummaryResponse updateSpeaker(
+            @PathVariable Integer id,
+            @RequestBody SpeakerCreateRequest request
+    ) {
+        return speakerService.updateSpeaker(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSpeaker(@PathVariable Integer id) {
+        speakerService.deleteSpeaker(id);
+    }
 }
