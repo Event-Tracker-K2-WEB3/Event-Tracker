@@ -1,5 +1,7 @@
 package org.demo.eventtracker.API.service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.demo.eventtracker.API.entity.AdminUser;
@@ -19,11 +21,13 @@ public class JwtService {
     @Value("${app.jwt.expiration-ms}")
     private Long jwtExpirationMs;
 
+    private SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+    }
+
     public String generateToken(AdminUser adminUser) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
-
-        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 
         return Jwts.builder()
                 .subject(adminUser.getEmail())
@@ -31,7 +35,35 @@ public class JwtService {
                 .claim("role", adminUser.getRole())
                 .issuedAt(now)
                 .expiration(expiryDate)
-                .signWith(key)
+                .signWith(getSigningKey())
                 .compact();
+    }
+
+    public Claims getClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    public String getEmailFromToken(String token) {
+        return getClaims(token).getSubject();
+    }
+
+    public String getRoleFromToken(String token) {
+        Object role = getClaims(token).get("role");
+
+        return role != null ? role.toString() : null;
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            Claims claims = getClaims(token);
+
+            return claims.getExpiration().after(new Date());
+        } catch (JwtException | IllegalArgumentException exception) {
+            return false;
+        }
     }
 }
