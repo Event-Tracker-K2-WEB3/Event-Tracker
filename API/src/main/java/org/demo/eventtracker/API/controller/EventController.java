@@ -109,4 +109,32 @@ public class EventController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateEvent(@PathVariable String id, @RequestBody Event eventDetails) {
+        try {
+            Event updatedEvent = eventService.updateEvent(id, eventDetails);
+            return ResponseEntity.ok(updatedEvent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error updating event: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteEvent(@PathVariable String id) {
+        try {
+            eventService.deleteEvent(id);
+            return ResponseEntity.ok("Event deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deleting event: " + e.getMessage());
+        }
+    }
+
 }

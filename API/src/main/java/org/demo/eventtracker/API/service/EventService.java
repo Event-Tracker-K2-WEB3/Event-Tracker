@@ -87,4 +87,24 @@ public class EventService {
                 .toList();
     }
 
+    public Event updateEvent(String id, Event eventDetails) {
+        Event existingEvent = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + id));
+
+        existingEvent.setTitle(eventDetails.getTitle());
+        existingEvent.setDescription(eventDetails.getDescription());
+        existingEvent.setStartDate(eventDetails.getStartDate());
+        existingEvent.setEndDate(eventDetails.getEndDate());
+        existingEvent.setLocation(eventDetails.getLocation());
+
+        return eventRepository.save(existingEvent);
+    }
+
+    public void deleteEvent(String id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + id));
+
+        eventRepository.delete(event);
+    }
+
 }
