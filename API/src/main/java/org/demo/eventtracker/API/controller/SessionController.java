@@ -18,8 +18,8 @@ public class SessionController {
     private final SessionService sessionService;
 
     @GetMapping
-    public List<Session> getAllSessions() {
-        return sessionRepository.findAll();
+    public List<SessionDetailsResponse> getAllSessions() {
+        return sessionService.getAllSessions();
     }
 
     @GetMapping("/{id}")
@@ -28,8 +28,8 @@ public class SessionController {
     }
 
     @GetMapping("/room/{roomId}")
-    public List<Session> getSessionsByRoom(@PathVariable Integer roomId) {
-        return sessionRepository.findByRoomId(roomId);
+    public List<SessionDetailsResponse> getSessionsByRoom(@PathVariable Integer roomId) {
+        return sessionService.getSessionsByRoom(roomId);
     }
 
     @PostMapping

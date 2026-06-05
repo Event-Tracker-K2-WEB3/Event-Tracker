@@ -20,6 +20,27 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
             left join fetch s.event
             left join fetch s.room
             left join fetch s.speakers
+            order by s.startTime asc
+            """)
+    List<Session> findAllWithDetails();
+
+    @Query("""
+            select distinct s
+            from Session s
+            left join fetch s.event
+            left join fetch s.room
+            left join fetch s.speakers
+            where s.room.id = :roomId
+            order by s.startTime asc
+            """)
+    List<Session> findByRoomIdWithDetails(@Param("roomId") Integer roomId);
+
+    @Query("""
+            select distinct s
+            from Session s
+            left join fetch s.event
+            left join fetch s.room
+            left join fetch s.speakers
             where s.id = :id
             """)
     Optional<Session> findByIdWithDetails(Integer id);
@@ -55,5 +76,4 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
         ORDER BY session.startTime ASC
         """)
     List<Session> findByEventIdWithRoom(@Param("eventId") String eventId);
-
 }
