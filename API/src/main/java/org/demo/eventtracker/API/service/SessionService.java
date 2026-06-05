@@ -17,6 +17,7 @@ import org.demo.eventtracker.API.repository.RoomRepository;
 import org.demo.eventtracker.API.repository.SpeakerRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -120,5 +121,21 @@ public class SessionService {
                 .orElse(session);
 
         return SessionDetailsResponse.fromEntity(updatedSession);
+    }
+
+    @Transactional(readOnly = true)
+    public List<SessionDetailsResponse> getAllSessions() {
+        return sessionRepository.findAllWithDetails()
+                .stream()
+                .map(SessionDetailsResponse::fromEntity)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SessionDetailsResponse> getSessionsByRoom(Integer roomId) {
+        return sessionRepository.findByRoomIdWithDetails(roomId)
+                .stream()
+                .map(SessionDetailsResponse::fromEntity)
+                .toList();
     }
 }
