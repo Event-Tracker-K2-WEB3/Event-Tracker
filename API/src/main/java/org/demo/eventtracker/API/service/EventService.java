@@ -32,6 +32,24 @@ public class EventService {
     @Autowired
     private SessionRepository sessionRepository;
 
+    public Event getEventById(String id) {
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + id));
+    }
+
+    public Event createEvent(Event event) {
+        if (event.getTitle() == null || event.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Title is required");
+        }
+        if (event.getStartDate() == null || event.getEndDate() == null) {
+            throw new IllegalArgumentException("Start date and end date are required");
+        }
+        if (event.getStartDate().isAfter(event.getEndDate())) {
+            throw new IllegalArgumentException("Start date must be before end date");
+        }
+        return eventRepository.save(event);
+    }
+
     public Page<Event> searchAndFilter(String search, String date, String location, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
