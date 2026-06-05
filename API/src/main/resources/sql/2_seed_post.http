@@ -8,6 +8,8 @@ Content-Type: application/json
   "name": "Main Hall"
 }
 
+
+
 > {%
     client.global.set("roomMainHallId", response.body.id);
 %}
