@@ -2,7 +2,6 @@ package org.demo.eventtracker.API.controller;
 
 import org.demo.eventtracker.API.dto.SpeakerEventResponse;
 import org.demo.eventtracker.API.entity.Event;
-import org.demo.eventtracker.API.entity.Speaker;
 import org.demo.eventtracker.API.repository.EventRepository;
 import org.demo.eventtracker.API.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import java.util.List;
 @RequestMapping("/events")
 public class EventController {
 
-    @Autowired
-    EventRepository eventRepository;
     @Autowired
     private EventService eventService;
 
@@ -43,15 +40,11 @@ public class EventController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getEventById(@PathVariable String id) {
         try {
-            Event event = eventRepository.findById(id).orElse(null);
-
-            if (event == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Event not found with id: " + id);
-            }
-
+            Event event = eventService.getEventById(id);
             return ResponseEntity.ok(event);
-
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error retrieving event: " + e.getMessage());
@@ -61,24 +54,11 @@ public class EventController {
     @PostMapping
     public ResponseEntity<?> createEvent(@RequestBody Event event) {
         try {
-            if (event.getTitle() == null || event.getTitle().isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Title is required");
-            }
-
-            if (event.getStartDate() == null || event.getEndDate() == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Start date and end date are required");
-            }
-
-            if (event.getStartDate().isAfter(event.getEndDate())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Start date must be before end date");
-            }
-
-            Event savedEvent = eventRepository.save(event);
+            Event savedEvent = eventService.createEvent(event);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
-
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error creating event: " + e.getMessage());
@@ -106,6 +86,34 @@ public class EventController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error retrieving event sessions: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateEvent(@PathVariable String id, @RequestBody Event eventDetails) {
+        try {
+            Event updatedEvent = eventService.updateEvent(id, eventDetails);
+            return ResponseEntity.ok(updatedEvent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error updating event: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteEvent(@PathVariable String id) {
+        try {
+            eventService.deleteEvent(id);
+            return ResponseEntity.ok("Event deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deleting event: " + e.getMessage());
         }
     }
 
