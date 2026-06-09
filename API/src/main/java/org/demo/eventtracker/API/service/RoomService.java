@@ -17,6 +17,11 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
+    public Room getRoomById(Integer id) {
+        return roomRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Room not found with id: " + id));
+    }
+
     public Room createRoom(Room room) {
         if (room.getName() == null || room.getName().isEmpty()) {
             throw new IllegalArgumentException("Room name is required");

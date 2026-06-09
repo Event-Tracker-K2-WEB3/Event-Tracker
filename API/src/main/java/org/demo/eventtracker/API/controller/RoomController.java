@@ -1,5 +1,6 @@
 package org.demo.eventtracker.API.controller;
 
+import org.demo.eventtracker.API.dto.RoomResponse;
 import org.demo.eventtracker.API.entity.Room;
 import org.demo.eventtracker.API.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,26 @@ public class RoomController {
     public ResponseEntity<?> getAllRooms() {
         try {
             List<Room> rooms = roomService.getAllRooms();
-            return ResponseEntity.ok(rooms);
+
+            List<RoomResponse> response = rooms.stream()
+                    .map(room -> new RoomResponse(room.getId(), room.getName()))
+                    .toList();
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error retrieving rooms: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/rooms/{id}")
+    public ResponseEntity<?> getRoomById(@PathVariable Integer id) {
+        try {
+            Room room = roomService.getRoomById(id);
+            return ResponseEntity.ok(room);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
         }
     }
 
@@ -58,7 +75,7 @@ public class RoomController {
     public ResponseEntity<?> deleteRoom(@PathVariable Integer id) {
         try {
             roomService.deleteRoom(id);
-            return ResponseEntity.ok("Room deleted successfully");
+            return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
