@@ -32,6 +32,17 @@ public class RoomController {
         }
     }
 
+    @GetMapping("/rooms/{id}")
+    public ResponseEntity<?> getRoomById(@PathVariable Integer id) {
+        try {
+            Room room = roomService.getRoomById(id);
+            return ResponseEntity.ok(room);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
+
     @PostMapping("/rooms")
     public ResponseEntity<?> createRoom(@RequestBody Room room) {
         try {
@@ -64,7 +75,7 @@ public class RoomController {
     public ResponseEntity<?> deleteRoom(@PathVariable Integer id) {
         try {
             roomService.deleteRoom(id);
-            return ResponseEntity.ok("Room deleted successfully");
+            return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());

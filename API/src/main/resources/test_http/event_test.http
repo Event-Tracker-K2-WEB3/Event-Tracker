@@ -26,4 +26,431 @@ Accept: application/json
 
 ### 6. Tester avec un ID d'événement invalide (doit retourner 404)
 GET {{baseUrl}}/events/{{invalidEventId}}/sessions
-Accept: application/json
+Accept: application/jsongiy
+
+### ============================================
+### 1. CRÉATION DES SALLES
+### ============================================
+
+### Salle DevHub
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+
+{
+  "name": "DevHub"
+}
+
+> {%
+    client.global.set("roomDevHubId", response.body.id);
+%}
+
+### Salle Cloud Arena
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+
+{
+  "name": "Cloud Arena"
+}
+
+> {%
+    client.global.set("roomCloudArenaId", response.body.id);
+%}
+
+### Salle AI Lab
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+
+{
+  "name": "AI Lab"
+}
+
+> {%
+    client.global.set("roomAILabId", response.body.id);
+%}
+
+
+### ============================================
+### 2. CRÉATION DE L'ÉVÉNEMENT (EN COURS)
+### ============================================
+
+POST {{baseUrl}}/events
+Content-Type: application/json
+
+{
+  "title": "Dev Summit 2026",
+  "description": "Le plus grand rassemblement de développeurs francophones. 3 jours de conférences, ateliers et networking autour des technologies web, cloud, IA et mobilité.",
+  "startDate": "2026-05-27T09:00:00Z",
+  "endDate": "2026-05-29T18:00:00Z",
+  "location": "Paris, France"
+}
+
+> {%
+    client.global.set("eventDevSummitId", response.body.id);
+%}
+
+
+### ============================================
+### 3. CRÉATION DES INTERVENANTS
+### ============================================
+
+### Thomas Dubois (Backend)
+POST {{baseUrl}}/speakers
+Content-Type: application/json
+
+{
+  "name": "Thomas Dubois",
+  "role": "Lead Backend Engineer",
+  "specialty": "Backend",
+  "company": "TechCorp",
+  "bio": "Thomas a 15 ans d'expérience dans l'architecture backend et les microservices. Il a travaillé pour des entreprises comme Google et Amazon.",
+  "photo": null,
+  "initials": "TD",
+  "linkedin": "https://linkedin.com/in/thomasdubois",
+  "twitter": "https://twitter.com/thomasdubois",
+  "website": "https://thomasdubois.dev",
+  "day": "Jour 1",
+  "sessionType": "Conférence"
+}
+
+> {%
+    client.global.set("speakerThomasId", response.body.id);
+%}
+
+### Marie Lambert (Frontend)
+POST {{baseUrl}}/speakers
+Content-Type: application/json
+
+{
+  "name": "Marie Lambert",
+  "role": "Frontend Architect",
+  "specialty": "Web",
+  "company": "WebStudio",
+  "bio": "Marie est experte en React, Next.js et performance web. Elle forme les équipes aux bonnes pratiques du développement frontend.",
+  "photo": null,
+  "initials": "ML",
+  "linkedin": "https://linkedin.com/in/marielambert",
+  "twitter": "https://twitter.com/marielambert",
+  "website": "https://marielambert.dev",
+  "day": "Jour 1",
+  "sessionType": "Atelier"
+}
+
+> {%
+    client.global.set("speakerMarieId", response.body.id);
+%}
+
+### Julien Bernard (Cloud)
+POST {{baseUrl}}/speakers
+Content-Type: application/json
+
+{
+  "name": "Julien Bernard",
+  "role": "Cloud Architect",
+  "specialty": "Cloud",
+  "company": "CloudSolutions",
+  "bio": "Julien aide les entreprises à migrer vers le cloud avec des solutions scalables et sécurisées. AWS, Azure, GCP n'ont aucun secret pour lui.",
+  "photo": null,
+  "initials": "JB",
+  "linkedin": "https://linkedin.com/in/julienbernard",
+  "twitter": "https://twitter.com/julienbernard",
+  "website": "https://julienbernard.cloud",
+  "day": "Jour 2",
+  "sessionType": "Conférence"
+}
+
+> {%
+    client.global.set("speakerJulienId", response.body.id);
+%}
+
+### Camille Rousseau (Data)
+POST {{baseUrl}}/speakers
+Content-Type: application/json
+
+{
+  "name": "Camille Rousseau",
+  "role": "Data Scientist",
+  "specialty": "IA",
+  "company": "DataMind",
+  "bio": "Spécialiste en Machine Learning et IA générative, Camille partage sa passion pour les données depuis plus de 8 ans.",
+  "photo": null,
+  "initials": "CR",
+  "linkedin": "https://linkedin.com/in/camillerousseau",
+  "twitter": "https://twitter.com/camillerousseau",
+  "website": "https://camillerousseau.ai",
+  "day": "Jour 2",
+  "sessionType": "Atelier"
+}
+
+> {%
+    client.global.set("speakerCamilleId", response.body.id);
+%}
+
+### Lucas Martin (DevOps)
+POST {{baseUrl}}/speakers
+Content-Type: application/json
+
+{
+  "name": "Lucas Martin",
+  "role": "DevOps Engineer",
+  "specialty": "DevOps",
+  "company": "DevOpsPro",
+  "bio": "Lucas automatise tout ce qui peut l'être. CI/CD, Kubernetes, Docker : il maîtrise la chaîne DevOps de A à Z.",
+  "photo": null,
+  "initials": "LM",
+  "linkedin": "https://linkedin.com/in/lucasmartin",
+  "twitter": "https://twitter.com/lucasmartin",
+  "website": "https://lucasmartin.devops",
+  "day": "Jour 3",
+  "sessionType": "Conférence"
+}
+
+> {%
+    client.global.set("speakerLucasId", response.body.id);
+%}
+
+
+### ============================================
+### 4. CRÉATION DES SESSIONS
+### ============================================
+
+### Session 1 - Keynote (Thomas + Marie)
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "title": "Keynote : L'avenir du développement",
+  "description": "Une vision complète des tendances qui façonneront le développement logiciel dans les années à venir. Nous explorerons l'impact de l'IA générative, l'évolution des frameworks frontend, la maturité du cloud et l'importance croissante de la cybersécurité. Une session inspirante pour débuter ces 3 jours de partage et d'apprentissage.",
+  "startTime": "2026-05-27T09:30:00Z",
+  "endTime": "2026-05-27T11:00:00Z",
+  "type": "Conférence",
+  "capacity": 300,
+  "eventId": "{{eventDevSummitId}}",
+  "roomId": {{roomDevHubId}},
+  "image": null
+}
+
+> {%
+    client.global.set("sessionKeynoteId", response.body.id);
+%}
+
+### Assigner Thomas à la Keynote
+POST {{baseUrl}}/sessions/{{sessionKeynoteId}}/speakers/{{speakerThomasId}}
+
+### Assigner Marie à la Keynote
+POST {{baseUrl}}/sessions/{{sessionKeynoteId}}/speakers/{{speakerMarieId}}
+
+
+### Session 2 - Microservices (Thomas)
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "title": "Microservices : architecture avancée",
+  "description": "Comment concevoir une architecture microservices robuste, scalable et maintenable. Nous aborderons les patterns de communication (saga, circuit breaker), la gestion des transactions distribuées, la découverte de services et les bonnes pratiques de monitoring. Des retours d'expérience concrets de projets en production.",
+  "startTime": "2026-05-27T11:30:00Z",
+  "endTime": "2026-05-27T13:00:00Z",
+  "type": "Conférence",
+  "capacity": 200,
+  "eventId": "{{eventDevSummitId}}",
+  "roomId": {{roomDevHubId}},
+  "image": null
+}
+
+> {%
+    client.global.set("sessionMicroservicesId", response.body.id);
+%}
+
+### Assigner Thomas à Microservices
+POST {{baseUrl}}/sessions/{{sessionMicroservicesId}}/speakers/{{speakerThomasId}}
+
+
+### Session 3 - React 19 (Marie)
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "title": "React 19 : ce qui change vraiment",
+  "description": "Découvrez toutes les nouveautés de React 19 : les actions, le nouveau compilateur, les améliorations de performance et les hooks tant attendus. Nous verrons comment migrer vos projets existants et exploiter pleinement les nouvelles fonctionnalités pour des applications plus performantes et plus simples à maintenir.",
+  "startTime": "2026-05-27T14:00:00Z",
+  "endTime": "2026-05-27T16:00:00Z",
+  "type": "Atelier",
+  "capacity": 150,
+  "eventId": "{{eventDevSummitId}}",
+  "roomId": {{roomCloudArenaId}},
+  "image": null
+}
+
+> {%
+    client.global.set("sessionReactId", response.body.id);
+%}
+
+### Assigner Marie à React 19
+POST {{baseUrl}}/sessions/{{sessionReactId}}/speakers/{{speakerMarieId}}
+
+
+### Session 4 - Kubernetes (Julien)
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "title": "Kubernetes : passage en production",
+  "description": "Retour d'expérience sur les défis rencontrés lors du déploiement de clusters Kubernetes en production. Gestion des ressources, auto-scaling, mises à jour sans downtime, sécurisation des secrets et monitoring. Une session technique avec des exemples concrets et des démonstrations en direct.",
+  "startTime": "2026-05-28T09:30:00Z",
+  "endTime": "2026-05-28T11:30:00Z",
+  "type": "Conférence",
+  "capacity": 250,
+  "eventId": "{{eventDevSummitId}}",
+  "roomId": {{roomCloudArenaId}},
+  "image": null
+}
+
+> {%
+    client.global.set("sessionK8sId", response.body.id);
+%}
+
+### Assigner Julien à Kubernetes
+POST {{baseUrl}}/sessions/{{sessionK8sId}}/speakers/{{speakerJulienId}}
+
+
+### Session 5 - IA générative (Camille)
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "title": "IA générative : boostez votre productivité",
+  "description": "Comment utiliser les modèles d'IA générative (Copilot, ChatGPT, Gemini) pour accélérer votre développement. Prompt engineering, génération de tests, documentation automatique et revue de code assistée. Une session pratique avec des démonstrations en direct et des astuces pour intégrer l'IA dans votre quotidien de développeur.",
+  "startTime": "2026-05-28T14:00:00Z",
+  "endTime": "2026-05-28T16:30:00Z",
+  "type": "Atelier",
+  "capacity": 200,
+  "eventId": "{{eventDevSummitId}}",
+  "roomId": {{roomAILabId}},
+  "image": null
+}
+
+> {%
+    client.global.set("sessionIAId", response.body.id);
+%}
+
+### Assigner Camille à IA générative
+POST {{baseUrl}}/sessions/{{sessionIAId}}/speakers/{{speakerCamilleId}}
+
+
+### Session 6 - DevOps (Lucas)
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "title": "DevOps : CI/CD avancé",
+  "description": "Comment mettre en place une chaîne CI/CD robuste et efficace. Nous aborderons l'automatisation des tests, le déploiement continu, la gestion des environnements et le monitoring. Des démonstrations avec GitHub Actions, GitLab CI et Jenkins.",
+  "startTime": "2026-05-29T09:30:00Z",
+  "endTime": "2026-05-29T11:30:00Z",
+  "type": "Atelier",
+  "capacity": 180,
+  "eventId": "{{eventDevSummitId}}",
+  "roomId": {{roomDevHubId}},
+  "image": null
+}
+
+> {%
+    client.global.set("sessionDevOpsId", response.body.id);
+%}
+
+### Assigner Lucas à DevOps
+POST {{baseUrl}}/sessions/{{sessionDevOpsId}}/speakers/{{speakerLucasId}}
+
+
+### Session 7 - Green IT (Marie + Julien)
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "title": "Green IT : code plus vert, planète plus saine",
+  "description": "Comment mesurer et réduire l'empreinte carbone de vos applications. Bonnes pratiques d'éco-conception, optimisation des ressources, choix technologiques durables et sensibilisation des équipes. Une session essentielle pour les développeurs soucieux de l'environnement.",
+  "startTime": "2026-05-29T14:00:00Z",
+  "endTime": "2026-05-29T16:00:00Z",
+  "type": "Conférence",
+  "capacity": 200,
+  "eventId": "{{eventDevSummitId}}",
+  "roomId": {{roomCloudArenaId}},
+  "image": null
+}
+
+> {%
+    client.global.set("sessionGreenITId", response.body.id);
+%}
+
+### Assigner Marie à Green IT
+POST {{baseUrl}}/sessions/{{sessionGreenITId}}/speakers/{{speakerMarieId}}
+
+### Assigner Julien à Green IT
+POST {{baseUrl}}/sessions/{{sessionGreenITId}}/speakers/{{speakerJulienId}}
+
+
+### ============================================
+### 5. VÉRIFICATIONS
+### ============================================
+
+### Vérifier l'événement (doit être EN COURS)
+GET {{baseUrl}}/events/{{eventDevSummitId}}
+
+### Vérifier toutes les sessions de l'événement
+GET {{baseUrl}}/events/{{eventDevSummitId}}/sessions
+
+### Vérifier tous les intervenants de l'événement
+GET {{baseUrl}}/events/{{eventDevSummitId}}/speakers
+
+###
+GET http://localhost:8080/events?page=1&size=20
+
+###
+PUT http://localhost:8080/events/89f50ae3-a718-48a0-82f9-ba4508c4b400
+Content-Type: application/json
+
+{
+  "title": "AI & Data Workshop - UPDATED",
+  "description": "This workshop has been updated successfully!",
+  "startDate": "2026-06-10T09:00:00Z",
+  "endDate": "2026-06-12T18:00:00Z",
+  "location": "Antananarivo, Madagascar"
+}
+
+###
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+"title": "Temporary Event - To Be Deleted",
+"description": "This event will be deleted after the test",
+"startDate": "2026-06-10T09:00:00Z",
+"endDate": "2026-06-12T18:00:00Z",
+"location": "Test City, France"
+}
+
+###
+DELETE http://localhost:8080/events/12a761c1-3806-4930-94a3-8986e724ee4f
+
+###
+GET http://localhost:8080/rooms
+
+###
+POST http://localhost:8080/rooms
+Content-Type: application/json
+
+{
+  "name": "Test Room - To Be Deleted"
+}
+
+###
+PUT http://localhost:8080/rooms/5
+Content-Type: application/json
+
+{
+  "name": "Test Room - UPDATED"
+}
+
+###
+DELETE http://localhost:8080/rooms/6
+
+###
+GET http://localhost:8080/rooms
