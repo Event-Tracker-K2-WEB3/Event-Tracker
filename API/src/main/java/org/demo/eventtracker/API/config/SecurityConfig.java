@@ -73,8 +73,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/sessions/*/speakers/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/sessions/*/speakers/*").hasRole("ADMIN")
 
+                        .requestMatchers(HttpMethod.GET, "/admin/dashboard").authenticated()
+
                         // Default
                         .anyRequest().permitAll()
+
                 )
                 .addFilterBefore(
                         jwtAuthenticationFilter,

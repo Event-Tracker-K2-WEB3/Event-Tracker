@@ -26,4 +26,5 @@ public interface SpeakerRepository extends JpaRepository<Speaker, Integer> {
     """, nativeQuery = true)
     List<Speaker> findSpeakersByEventId(@Param("eventId") String eventId);
 
+    List<Speaker> findTop5ByOrderByIdDesc();
 }
