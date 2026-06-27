@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,4 +77,20 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
         ORDER BY session.startTime ASC
         """)
     List<Session> findByEventIdWithRoom(@Param("eventId") String eventId);
+
+    long countByStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
+            Instant startTime,
+            Instant endTime
+    );
+
+    List<Session> findTop5ByStartTimeAfterOrderByStartTimeAsc(Instant now);
+
+    List<Session> findTop5ByOrderByStartTimeDesc();
+
+    List<Session> findByStartTimeBetweenOrderByStartTimeAsc(
+            Instant start,
+            Instant end
+    );
+
+    List<Session> findTop5ByOrderByIdDesc();
 }
