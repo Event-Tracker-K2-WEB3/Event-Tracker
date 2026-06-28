@@ -155,4 +155,40 @@ public class SessionService {
 
         return SessionDetailsResponse.fromEntity(savedSession);
     }
+
+    @Transactional
+    public SessionDetailsResponse updateSession(Integer id, SessionCreateRequest request) {
+        Session session = sessionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Session not found with id: " + id));
+
+        Event event = eventRepository.findById(request.eventId())
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + request.eventId()));
+
+        Room room = roomRepository.findById(request.roomId())
+                .orElseThrow(() -> new RuntimeException("Room not found with id: " + request.roomId()));
+
+        session.setTitle(request.title());
+        session.setDescription(request.description());
+        session.setType(request.type());
+        session.setStartTime(request.startTime());
+        session.setEndTime(request.endTime());
+        session.setCapacity(request.capacity());
+        session.setImage(request.image());
+        session.setEvent(event);
+        session.setRoom(room);
+
+        Session savedSession = sessionRepository.save(session);
+
+        return SessionDetailsResponse.fromEntity(savedSession);
+    }
+
+    @Transactional
+    public void deleteSession(Integer id) {
+        Session session = sessionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Session not found with id: " + id));
+
+        session.getSpeakers().clear();
+
+        sessionRepository.delete(session);
+    }
 }

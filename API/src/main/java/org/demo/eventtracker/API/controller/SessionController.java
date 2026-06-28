@@ -52,4 +52,17 @@ public class SessionController {
     ) {
         return sessionService.removeSpeakerFromSession(sessionId, speakerId);
     }
+
+    @PutMapping("/{id}")
+    public SessionDetailsResponse updateSession(
+            @PathVariable Integer id,
+            @RequestBody SessionCreateRequest request
+    ) {
+        return sessionService.updateSession(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSession(@PathVariable Integer id) {
+        sessionService.deleteSession(id);
+    }
 }

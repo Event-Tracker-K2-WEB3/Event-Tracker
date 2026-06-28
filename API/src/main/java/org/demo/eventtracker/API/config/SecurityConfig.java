@@ -77,6 +77,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/sessions/*/speakers/*").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/sessions/*/speakers/*").authenticated()
 
+                        .requestMatchers(HttpMethod.PUT, "/sessions/*").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/sessions/*").authenticated()
+
                         // Default
                         .anyRequest().permitAll()
 
