@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.Instant;
+import java.util.List;
+
 public interface EventRepository extends JpaRepository<Event, String> {
 
     Page<Event> findAll(Pageable pageable);
@@ -40,4 +43,6 @@ public interface EventRepository extends JpaRepository<Event, String> {
             @Param("location") String location,
             Pageable pageable
     );
+
+    List<Event> findTop5ByStartDateAfterOrderByStartDateAsc(Instant now);
 }

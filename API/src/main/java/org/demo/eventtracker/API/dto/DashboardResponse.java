@@ -10,6 +10,9 @@ public record DashboardResponse(
         long totalRooms,
         long liveSessions,
         List<DashboardChartPoint> sessionsByDay,
+        List<DashboardEventSummary> upcomingEvents,
+        List<DashboardEventSessionCount> sessionsByEvent,
+        List<DashboardRoomUsage> roomUsage,
         List<DashboardSessionSummary> upcomingSessions,
         List<DashboardSessionSummary> latestSessions,
         List<DashboardSpeakerSummary> latestSpeakers
@@ -17,6 +20,31 @@ public record DashboardResponse(
     public record DashboardChartPoint(
             String date,
             String label,
+            long sessions
+    ) {
+    }
+
+    public record DashboardEventSummary(
+            String id,
+            String title,
+            String description,
+            Instant startDate,
+            Instant endDate,
+            String location,
+            long sessionCount
+    ) {
+    }
+
+    public record DashboardEventSessionCount(
+            String eventId,
+            String eventTitle,
+            long sessions
+    ) {
+    }
+
+    public record DashboardRoomUsage(
+            Integer roomId,
+            String roomName,
             long sessions
     ) {
     }

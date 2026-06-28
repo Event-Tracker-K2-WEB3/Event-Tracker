@@ -2,6 +2,7 @@ package org.demo.eventtracker.API.service;
 
 import lombok.RequiredArgsConstructor;
 import org.demo.eventtracker.API.dto.DashboardResponse;
+import org.demo.eventtracker.API.entity.Event;
 import org.demo.eventtracker.API.entity.Session;
 import org.demo.eventtracker.API.entity.Speaker;
 import org.demo.eventtracker.API.repository.EventRepository;
@@ -9,9 +10,9 @@ import org.demo.eventtracker.API.repository.RoomRepository;
 import org.demo.eventtracker.API.repository.SessionRepository;
 import org.demo.eventtracker.API.repository.SpeakerRepository;
 import org.springframework.stereotype.Service;
-
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,8 +37,22 @@ public class AdminDashboardService {
         long liveSessions = sessionRepository
                 .countByStartTimeLessThanEqualAndEndTimeGreaterThanEqual(now, now);
 
+        List<Session> allSessions = sessionRepository.findAllWithDetails();
+
         List<DashboardResponse.DashboardChartPoint> sessionsByDay =
                 buildSessionsByDay();
+
+        List<DashboardResponse.DashboardEventSummary> upcomingEvents =
+                eventRepository.findTop5ByStartDateAfterOrderByStartDateAsc(now)
+                        .stream()
+                        .map(event -> toEventSummary(event, allSessions))
+                        .toList();
+
+        List<DashboardResponse.DashboardEventSessionCount> sessionsByEvent =
+                buildSessionsByEvent(allSessions);
+
+        List<DashboardResponse.DashboardRoomUsage> roomUsage =
+                buildRoomUsage(allSessions);
 
         List<DashboardResponse.DashboardSessionSummary> upcomingSessions =
                 sessionRepository.findTop5ByStartTimeAfterOrderByStartTimeAsc(now)
@@ -64,6 +79,9 @@ public class AdminDashboardService {
                 totalRooms,
                 liveSessions,
                 sessionsByDay,
+                upcomingEvents,
+                sessionsByEvent,
+                roomUsage,
                 upcomingSessions,
                 latestSessions,
                 latestSpeakers
@@ -74,8 +92,8 @@ public class AdminDashboardService {
         ZoneId zoneId = ZoneId.systemDefault();
 
         LocalDate today = LocalDate.now(zoneId);
-        LocalDate startDate = today.minusDays(6);
-        LocalDate endDate = today;
+        LocalDate startDate = today;
+        LocalDate endDate = today.plusDays(6);
 
         Instant startInstant = startDate
                 .atStartOfDay(zoneId)
@@ -145,5 +163,79 @@ public class AdminDashboardService {
                 speaker.getPhoto(),
                 speaker.getInitials()
         );
+    }
+
+    private DashboardResponse.DashboardEventSummary toEventSummary(
+            Event event,
+            List<Session> allSessions
+    ) {
+        long sessionCount = allSessions.stream()
+                .filter(session -> session.getEvent() != null)
+                .filter(session -> session.getEvent().getId().equals(event.getId()))
+                .count();
+
+        return new DashboardResponse.DashboardEventSummary(
+                event.getId(),
+                event.getTitle(),
+                event.getDescription(),
+                event.getStartDate(),
+                event.getEndDate(),
+                event.getLocation(),
+                sessionCount
+        );
+    }
+
+    private List<DashboardResponse.DashboardEventSessionCount> buildSessionsByEvent(
+            List<Session> sessions
+    ) {
+        return sessions.stream()
+                .filter(session -> session.getEvent() != null)
+                .collect(Collectors.groupingBy(
+                        session -> session.getEvent().getId(),
+                        Collectors.toList()
+                ))
+                .values()
+                .stream()
+                .map(eventSessions -> {
+                    Session firstSession = eventSessions.get(0);
+
+                    return new DashboardResponse.DashboardEventSessionCount(
+                            firstSession.getEvent().getId(),
+                            firstSession.getEvent().getTitle(),
+                            eventSessions.size()
+                    );
+                })
+                .sorted(Comparator.comparingLong(
+                        DashboardResponse.DashboardEventSessionCount::sessions
+                ).reversed())
+                .limit(5)
+                .toList();
+    }
+
+    private List<DashboardResponse.DashboardRoomUsage> buildRoomUsage(
+            List<Session> sessions
+    ) {
+        return sessions.stream()
+                .filter(session -> session.getRoom() != null)
+                .collect(Collectors.groupingBy(
+                        session -> session.getRoom().getId(),
+                        Collectors.toList()
+                ))
+                .values()
+                .stream()
+                .map(roomSessions -> {
+                    Session firstSession = roomSessions.get(0);
+
+                    return new DashboardResponse.DashboardRoomUsage(
+                            firstSession.getRoom().getId(),
+                            firstSession.getRoom().getName(),
+                            roomSessions.size()
+                    );
+                })
+                .sorted(Comparator.comparingLong(
+                        DashboardResponse.DashboardRoomUsage::sessions
+                ).reversed())
+                .limit(5)
+                .toList();
     }
 }
