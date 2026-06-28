@@ -19,6 +19,7 @@ public record SessionDetailsResponse(
         Integer roomId,
         String roomName,
         Boolean live,
+        Integer speakerCount,
         List<SessionSpeakerResponse> speakers
 ) {
     public static SessionDetailsResponse fromEntity(Session session) {
@@ -56,6 +57,7 @@ public record SessionDetailsResponse(
                 roomId,
                 roomName,
                 live,
+                speakers.size(),
                 speakers
         );
     }
