@@ -138,4 +138,21 @@ public class SessionService {
                 .map(SessionDetailsResponse::fromEntity)
                 .toList();
     }
+
+    @Transactional
+    public SessionDetailsResponse removeSpeakerFromSession(Integer sessionId, Integer speakerId) {
+        Session session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new RuntimeException("Session not found with id: " + sessionId));
+
+        Speaker speaker = speakerRepository.findById(speakerId)
+                .orElseThrow(() -> new RuntimeException("Speaker not found with id: " + speakerId));
+
+        session.getSpeakers().removeIf(existingSpeaker ->
+                existingSpeaker.getId().equals(speaker.getId())
+        );
+
+        Session savedSession = sessionRepository.save(session);
+
+        return SessionDetailsResponse.fromEntity(savedSession);
+    }
 }

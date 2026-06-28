@@ -44,4 +44,12 @@ public class SessionController {
     ) {
         return sessionService.addSpeakerToSession(sessionId, speakerId);
     }
+
+    @DeleteMapping("/{sessionId}/speakers/{speakerId}")
+    public SessionDetailsResponse removeSpeakerFromSession(
+            @PathVariable Integer sessionId,
+            @PathVariable Integer speakerId
+    ) {
+        return sessionService.removeSpeakerFromSession(sessionId, speakerId);
+    }
 }

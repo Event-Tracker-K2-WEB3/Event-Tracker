@@ -74,6 +74,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/sessions/*/speakers/*").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/admin/dashboard").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/sessions/*/speakers/*").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/sessions/*/speakers/*").authenticated()
 
                         // Default
                         .anyRequest().permitAll()
