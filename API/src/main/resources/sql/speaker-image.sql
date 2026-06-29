@@ -1,0 +1,1 @@
+ALTER TABLE speaker ALTER COLUMN photo TYPE TEXT;
