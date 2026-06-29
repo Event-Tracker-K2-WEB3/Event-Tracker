@@ -1,0 +1,39 @@
+@baseUrl = http://localhost:8080
+
+### 1. Login admin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@eventsync.com",
+  "password": "Admin@123"
+}
+
+> {%
+    client.global.set("adminToken", response.body.token);
+%}
+
+
+### 2. GET public sans token : doit fonctionner
+GET {{baseUrl}}/events?page=1&size=8
+Accept: application/json
+
+
+### 3. POST admin sans token : doit être refusé
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+
+{
+  "name": "Unauthorized Room"
+}
+
+
+### 4. POST admin avec token : doit fonctionner si l’endpoint existe
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "Admin Test Room"
+}
+

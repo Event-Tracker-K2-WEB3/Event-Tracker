@@ -30,6 +30,7 @@ public class Speaker {
     @Column(columnDefinition = "TEXT")
     private String bio;
 
+    @Column(columnDefinition = "TEXT")
     private String photo;
 
     @Column(nullable = false)

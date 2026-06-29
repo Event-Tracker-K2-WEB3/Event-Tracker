@@ -1,0 +1,359 @@
+@baseUrl = http://localhost:8080
+
+### 1. Create room - Main Hall
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+
+{
+  "name": "Main Hall"
+}
+
+
+
+> {%
+    client.global.set("roomMainHallId", response.body.id);
+%}
+
+
+### 2. Create room - Amphitheater A
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+
+{
+  "name": "Amphitheater A"
+}
+
+> {%
+    client.global.set("roomAmphitheaterAId", response.body.id);
+%}
+
+
+### 3. Create room - Room B
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+
+{
+  "name": "Room B"
+}
+
+> {%
+    client.global.set("roomBId", response.body.id);
+%}
+
+
+### 4. Create room - Workshop Lab
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+
+{
+  "name": "Workshop Lab"
+}
+
+> {%
+    client.global.set("roomWorkshopLabId", response.body.id);
+%}
+
+
+### 5. Create event - AI & Data Workshop
+POST {{baseUrl}}/events
+Content-Type: application/json
+
+{
+  "title": "AI & Data Workshop",
+  "description": "A practical workshop about artificial intelligence, machine learning and data-driven innovation.",
+  "startDate": "{{$isoTimestamp}}",
+  "endDate": "2030-12-31T23:59:59Z",
+  "location": "Antananarivo"
+}
+
+> {%
+    client.global.set("eventAiId", response.body.id);
+%}
+
+
+### 6. Create event - Tech Summit
+POST {{baseUrl}}/events
+Content-Type: application/json
+
+{
+  "title": "Tech Summit Paris 2026",
+  "description": "A technology conference focused on AI, cloud, web development and digital careers.",
+  "startDate": "2030-01-10T08:00:00Z",
+  "endDate": "2030-01-10T18:00:00Z",
+  "location": "Paris"
+}
+
+> {%
+    client.global.set("eventTechId", response.body.id);
+%}
+
+
+### 7. Create speaker - Alexandre Moreau
+POST {{baseUrl}}/speakers
+Content-Type: application/json
+
+{
+  "name": "Alexandre Moreau",
+  "role": "Artificial Intelligence Expert",
+  "specialty": "AI",
+  "company": "TechVision",
+  "bio": "Alexandre helps companies integrate AI to optimize their business processes.",
+  "photo": "/images/speakers/alexandre-moreau.jpg",
+  "initials": "AM",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://example.com",
+  "day": "Day 1",
+  "sessionType": "Conference"
+}
+
+> {%
+    client.global.set("speakerAlexandreId", response.body.id);
+%}
+
+
+### 8. Create speaker - Sophie Laurent
+POST {{baseUrl}}/speakers
+Content-Type: application/json
+
+{
+  "name": "Sophie Laurent",
+  "role": "Cloud Architect",
+  "specialty": "Cloud",
+  "company": "CloudPeak",
+  "bio": "Sophie specializes in hybrid cloud infrastructure and helps organizations migrate, scale and secure their platforms.",
+  "photo": null,
+  "initials": "SL",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://example.com",
+  "day": "Day 1",
+  "sessionType": "Workshop"
+}
+
+> {%
+    client.global.set("speakerSophieId", response.body.id);
+%}
+
+
+### 9. Create speaker - Karim Benali
+POST {{baseUrl}}/speakers
+Content-Type: application/json
+
+{
+  "name": "Karim Benali",
+  "role": "Cybersecurity Expert",
+  "specialty": "Cybersecurity",
+  "company": "SecureNet",
+  "bio": "Karim protects critical systems and trains teams on modern security best practices.",
+  "photo": null,
+  "initials": "KB",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://example.com",
+  "day": "Day 2",
+  "sessionType": "Conference"
+}
+
+> {%
+    client.global.set("speakerKarimId", response.body.id);
+%}
+
+
+### 10. Create speaker - Nadia Rossi
+POST {{baseUrl}}/speakers
+Content-Type: application/json
+
+{
+  "name": "Nadia Rossi",
+  "role": "Data Consultant",
+  "specialty": "Data",
+  "company": "DataNova",
+  "bio": "Nadia helps organizations use their data to make better strategic decisions.",
+  "photo": null,
+  "initials": "NR",
+  "linkedin": "https://linkedin.com",
+  "twitter": "https://twitter.com",
+  "website": "https://example.com",
+  "day": "Day 1",
+  "sessionType": "Panel"
+}
+
+> {%
+    client.global.set("speakerNadiaId", response.body.id);
+%}
+
+
+### 11. Create live session
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "title": "Introduction to Artificial Intelligence",
+  "description": "An introduction to the core concepts of AI, machine learning and neural networks.",
+  "startTime": "{{$isoTimestamp}}",
+  "endTime": "2030-12-31T23:59:59Z",
+  "type": "Conference",
+  "capacity": 100,
+  "eventId": "{{eventAiId}}",
+  "roomId": {{roomAmphitheaterAId}},
+  "image": "/images/sessions/ai-introduction.jpg"
+}
+
+> {%
+    client.global.set("sessionLiveId", response.body.id);
+%}
+
+
+### 12. Create future session
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "title": "Hybrid Cloud and Scalability",
+  "description": "Best practices for designing scalable, resilient and secure cloud infrastructure.",
+  "startTime": "2030-01-10T10:00:00Z",
+  "endTime": "2030-01-10T11:00:00Z",
+  "type": "Workshop",
+  "capacity": 80,
+  "eventId": "{{eventAiId}}",
+  "roomId": {{roomWorkshopLabId}},
+  "image": "/images/sessions/cloud-hybrid.jpg"
+}
+
+> {%
+    client.global.set("sessionCloudId", response.body.id);
+%}
+
+
+### 13. Create cybersecurity session
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "title": "Cybersecurity for Modern Applications",
+  "description": "A practical approach to securing web applications, APIs and critical systems.",
+  "startTime": "2030-01-10T11:15:00Z",
+  "endTime": "2030-01-10T12:15:00Z",
+  "type": "Conference",
+  "capacity": 90,
+  "eventId": "{{eventTechId}}",
+  "roomId": {{roomBId}},
+  "image": "/images/sessions/cybersecurity.jpg"
+}
+
+> {%
+    client.global.set("sessionCyberId", response.body.id);
+%}
+
+
+### 14. Assign Alexandre to live session
+POST {{baseUrl}}/sessions/{{sessionLiveId}}/speakers/{{speakerAlexandreId}}
+
+
+### 15. Assign Nadia to live session
+POST {{baseUrl}}/sessions/{{sessionLiveId}}/speakers/{{speakerNadiaId}}
+
+
+### 16. Assign Sophie to cloud session
+POST {{baseUrl}}/sessions/{{sessionCloudId}}/speakers/{{speakerSophieId}}
+
+
+### 17. Assign Karim to cybersecurity session
+POST {{baseUrl}}/sessions/{{sessionCyberId}}/speakers/{{speakerKarimId}}
+
+
+### 18. Create question 1
+POST {{baseUrl}}/sessions/{{sessionLiveId}}/questions
+Content-Type: application/json
+
+{
+  "content": "What are the main use cases of generative AI today?",
+  "authorName": "Lucas"
+}
+
+> {%
+    client.global.set("questionOneId", response.body.id);
+%}
+
+
+### 19. Create question 2
+POST {{baseUrl}}/sessions/{{sessionLiveId}}/questions
+Content-Type: application/json
+
+{
+  "content": "How can we ensure the reliability of AI-generated results?",
+  "authorName": "Marie"
+}
+
+> {%
+    client.global.set("questionTwoId", response.body.id);
+%}
+
+
+### 20. Create question 3
+POST {{baseUrl}}/sessions/{{sessionLiveId}}/questions
+Content-Type: application/json
+
+{
+  "content": "Do you think generative AI will replace some jobs in the near future?",
+  "authorName": "Anonymous"
+}
+
+> {%
+    client.global.set("questionThreeId", response.body.id);
+%}
+
+
+### 21. Upvote question 1 - visitor 001
+POST {{baseUrl}}/questions/{{questionOneId}}/upvote
+Content-Type: application/json
+
+{
+  "visitorId": "visitor-test-001"
+}
+
+
+### 22. Upvote question 1 - visitor 002
+POST {{baseUrl}}/questions/{{questionOneId}}/upvote
+Content-Type: application/json
+
+{
+  "visitorId": "visitor-test-002"
+}
+
+
+### 23. Upvote question 1 - visitor 003
+POST {{baseUrl}}/questions/{{questionOneId}}/upvote
+Content-Type: application/json
+
+{
+  "visitorId": "visitor-test-003"
+}
+
+
+### 24. Upvote question 2 - visitor 001
+POST {{baseUrl}}/questions/{{questionTwoId}}/upvote
+Content-Type: application/json
+
+{
+  "visitorId": "visitor-test-001"
+}
+
+
+### 25. Upvote question 2 - visitor 004
+POST {{baseUrl}}/questions/{{questionTwoId}}/upvote
+Content-Type: application/json
+
+{
+  "visitorId": "visitor-test-004"
+}
+
+
+### 26. Test duplicate upvote
+POST {{baseUrl}}/questions/{{questionOneId}}/upvote
+Content-Type: application/json
+
+{
+  "visitorId": "visitor-test-001"
+}

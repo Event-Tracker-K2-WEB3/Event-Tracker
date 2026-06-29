@@ -18,7 +18,7 @@ public record SpeakerSummaryResponse(
         String sessionType,
         Integer sessionCount
 ) {
-    public static SpeakerSummaryResponse fromEntity(Speaker speaker) {
+    public static SpeakerSummaryResponse fromEntity(Speaker speaker, Integer sessionCount) {
         return new SpeakerSummaryResponse(
                 speaker.getId(),
                 speaker.getName(),
@@ -33,7 +33,7 @@ public record SpeakerSummaryResponse(
                 speaker.getWebsite(),
                 speaker.getDay(),
                 speaker.getSessionType(),
-                0
+                sessionCount == null ? 0 : sessionCount
         );
     }
 }
