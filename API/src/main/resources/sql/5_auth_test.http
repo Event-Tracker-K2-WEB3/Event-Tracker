@@ -36,3 +36,4 @@ Authorization: Bearer {{adminToken}}
 {
   "name": "Admin Test Room"
 }
+
