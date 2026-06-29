@@ -270,3 +270,6 @@ VALUES
         'visitor-test-004',
         (SELECT id FROM session_question WHERE content = 'How can we ensure the reliability of AI-generated results?')
     );
+
+ALTER TABLE "event"
+    ADD COLUMN IF NOT EXISTS image_url VARCHAR(500);

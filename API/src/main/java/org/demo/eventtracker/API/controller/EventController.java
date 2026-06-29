@@ -2,16 +2,22 @@ package org.demo.eventtracker.API.controller;
 
 import org.demo.eventtracker.API.dto.SpeakerEventResponse;
 import org.demo.eventtracker.API.entity.Event;
-import org.demo.eventtracker.API.repository.EventRepository;
 import org.demo.eventtracker.API.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/events")
@@ -62,6 +68,54 @@ public class EventController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error creating event: " + e.getMessage());
+        }
+    }
+
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createEventWithImage(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("location") String location,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate,
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile
+    ) {
+        try {
+            Event event = new Event();
+            event.setTitle(title);
+            event.setDescription(description);
+            event.setLocation(location);
+            event.setStartDate(Instant.parse(startDate));
+            event.setEndDate(Instant.parse(endDate));
+
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String originalFilename = imageFile.getOriginalFilename();
+                String extension = "";
+
+                if (originalFilename != null && originalFilename.contains(".")) {
+                    extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                }
+
+                String fileName = UUID.randomUUID() + extension;
+
+                Path uploadPath = Paths.get(
+                        "/home/marcorazady/Bureau/L2/Web/Web3/examen/Event-Tracker-Web/public/images/events"
+                );
+
+                Files.createDirectories(uploadPath);
+
+                Path filePath = uploadPath.resolve(fileName);
+                imageFile.transferTo(filePath.toFile());
+
+                event.setImageUrl("/images/events/" + fileName);
+            }
+
+            Event savedEvent = eventService.createEvent(event);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error creating event with image: " + e.getMessage());
         }
     }
 
@@ -116,5 +170,4 @@ public class EventController {
                     .body("Error deleting event: " + e.getMessage());
         }
     }
-
 }

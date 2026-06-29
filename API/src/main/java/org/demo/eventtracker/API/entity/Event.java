@@ -25,6 +25,9 @@ public class Event {
     @Column(nullable = false)
     private String location;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     public String getId() {
         return id;
     }
@@ -72,4 +75,15 @@ public class Event {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
+
+
+
